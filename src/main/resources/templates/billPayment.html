@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:insert="~{common/fragments :: header}"></head>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <title>Вывод</title>
+</head>
+
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<!--  Сообщение об ошибке  -->
+<div th:if="${errorMessage}" class="alert alert-danger">
+  Не удалось выполнить действие
+</div>
+<!--  Конец сообщения об ошибке  -->
+<div th:if="${successMessage}" class="alert alert-success">
+  Выполнено
+</div>
+
+<div class="container w-75">
+
+  <!--  Сообщение об ошибке  -->
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    Не удалось выполнить действие
+  </div>
+  <!--  Конец сообщения об ошибке  -->
+  <div th:if="${successMessage}" class="alert alert-success">
+    Выполнено
+  </div>
+
+
+  <form th:action="@{/user/bill}" th:object="${bill}" method="post">
+
+    <!-- Дата создания -->
+    <div class="form-group">
+      <label for="inputDate">Дата</label>
+      <input type="date" class="form-control" id="inputDate" th:value="*{dateCreated}" readonly />
+    </div>
+
+    <!-- Счёт зачисления -->
+    <div class="form-group">
+      <label for="inputName">Счёт зачисления</label>
+      <input type="text" class="form-control" id="inputName"  th:value="*{account.name}" readonly />
+    </div>
+
+    <!-- Создатель -->
+    <div class="form-group">
+      <label for="inputUser">Создатель</label>
+      <input type="text" class="form-control" id="inputUser"  th:value="*{creator.username}" readonly />
+    </div>
+
+    <!-- Получатель -->
+    <div class="form-group">
+      <label for="inputRecipient">Получатель</label>
+      <input type="text" class="form-control" id="inputRecipient"  th:value="*{recipient.username}" readonly />
+    </div>
+
+    <!-- Услуга -->
+    <div class="form-group">
+      <label for="inputService">Услуга</label>
+      <input class="form-control" id="inputService" th:value="*{service}" readonly />
+    </div>
+
+    <!-- Стоимость -->
+    <div class="form-group">
+      <label for="inputPrice">Стоимость</label>
+      <input class="form-control" id="inputPrice" th:value="*{price}" readonly />
+    </div>
+
+    <!-- Статус -->
+    <div class="form-group">
+      <label for="inputStatus">Статус</label>
+      <input class="form-control" id="inputStatus" th:value="*{status}" readonly />
+    </div>
+
+    <!-- Детали -->
+    <div class="form-group">
+      <label for="inputDescription">Детали</label>
+      <textarea class="form-control" id="inputDescription" rows="5" th:field="*{details}" readonly></textarea>
+    </div>
+
+  </form>
+
+  <form th:if="${bill}" th:action="'/user/bill/' + ${bill.id}" method="post">
+
+    <div class="form-group" >
+      <label for="accountId">1. Укажите счёт, с которого вы хотите оплатить:</label>
+      <select class="selectpicker form-control" data-live-search="true" name="accountId" id="accountId" required="required" >
+        <option th:each="item : ${accounts}" th:value="${item.id}" th:text="${item.name}"></option>
+      </select>
+      <br />
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Оплатить</button>
+
+  </form>
+
+
+</div>
+
+</body>
+
+
+<div th:insert="~{common/fragments :: body-bottom-scripts}"></div>
+
+</html>

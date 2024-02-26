@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:insert="~{common/fragments :: header}"></head>
+<head><title>Регистрация</title></head>
+
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<div class="container d-flex align-items-center justify-content-center">
+    <div class="row">
+        <div class="main-center center-block">
+            <!-- Форма-->
+            <form class="form-signin" th:action="@{/signup}" method="post">
+                <h2 class="form-signin-heading text-center">Регистрация</h2>
+
+                <div class="form-group">
+                    <label for="firstname" class="cols-sm-2 control-label">Имя</label>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.firstname}" id="firstname" name="firstname" placeholder="Введите имя" required="required"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="cols-sm-2 control-label">Фамилия</label>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.lastname}" id="lastname" name="lastname" placeholder="Введите фамилию" required="required"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="middleName" class="cols-sm-2 control-label">Отчество</label>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.middleName}" id="middleName" name="middleName" placeholder="Введите отчество"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="cols-sm-2 control-label">Телефон</label>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.phone}" id="phone" name="phone" placeholder="xxx-xxx-xxxx" required="required"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="text-danger" th:if="${emailExists}">* Такая почта уже существует</div>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.email}" id="email" name="email" placeholder="Введите почту" required="required"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username" class="cols-sm-2 control-label">Логин</label>
+                    <div class="text-danger" th:if="${usernameExists}">* Такой логин уже существует</div>
+                    <div class="cols-sm-10">
+                        <input type="text" class="form-control" th:value="${user.username}" id="username" name="username" placeholder="Введите ваш логин" required="required"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="cols-sm-2 control-label">Пароль</label>
+                    <div class="cols-sm-10">
+                        <input type="password" class="form-control" th:value="${user.password}" id="password" name="password" placeholder="Введите пароль" required="required"/>
+                    </div>
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+            </form>
+            <!-- Конец формы -->
+        </div>
+    </div>
+</div>
+
+</body>

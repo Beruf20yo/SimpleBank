@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:insert="~{common/fragments :: header}"></head>
+<head><title>Счёт</title></head>
+
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<div class="card">
+  <div class="card-body">
+
+    <!-- Начало формы -->
+    <form th:object="${account}">
+
+      <h4 th:text="'Счёт # ' + *{name}"></h4>
+
+      <!-- Пользователь -->
+      <div class="form-group">
+        <label for="inputUser">Пользователь</label>
+        <input type="text" class="form-control" id="inputUser"  th:value="*{user.username}" readonly />
+      </div>
+
+      <!-- Тип счёта -->
+      <div class="form-group">
+        <label for="inputType">Тип счёта</label>
+        <input type="text" class="form-control" id="inputType"  th:value="*{accountType.name}" readonly />
+      </div>
+
+      <!-- Баланс -->
+      <div class="form-group">
+        <label for="inputBalance">Баланс</label>
+        <input class="form-control" id="inputBalance" th:field="*{accountBalance}" readonly />
+      </div>
+
+      <!-- Дата открытия -->
+      <div class="form-group">
+        <label for="inputDate">Дата открытия</label>
+        <input type="date" class="form-control" id="inputDate" th:field="*{dateOpened}" readonly />
+      </div>
+
+      <!-- Название -->
+      <div class="form-group">
+        <label for="inputName">Название</label>
+        <input type="text" class="form-control" id="inputName"  th:field="*{name}" readonly />
+      </div>
+
+      <!-- Детали -->
+      <div class="form-group">
+        <label for="inputDescription">Детали</label>
+        <textarea class="form-control" id="inputDescription" rows="5" th:field="*{accountDetails}" readonly></textarea>
+      </div>
+
+
+    </form>
+    <!-- Конец формы -->
+
+  </div>
+</div>
+<!-- Конец сохранения записи -->
+
+</body>
+
+<div th:insert="~{common/fragments :: body-bottom-scripts}"></div>
+
+</html>

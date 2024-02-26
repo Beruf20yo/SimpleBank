@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:insert="~{common/fragments :: header}"></head>
+<head><title>Авторизация</title></head>
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<div class="container d-flex align-items-center justify-content-center">
+    <div class="row">
+        <div class="main-center center-block">
+            <div class="alert alert-danger" th:if="${param.error}">
+                Неверное имя пользователя или пароль.
+            </div>
+            <div class="alert alert-danger" th:if="${param.logout}">
+                Вы вышли из системы.
+            </div>
+            <form class="form-horizontal" method="post" th:action="@{/index}">
+                <h2 class="form-signin-heading text-center">Вход в систему</h2>
+                <div class="form-group">
+                    <label for="username" class="sr-only">Имя пользователя</label>
+                    <input type="text" roleId="username" class="form-control" placeholder="Имя пользователя" name="username"
+                           id="username"
+                           required="required" autofocus="autofocus"/>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Пароль</label>
+                    <input type="password" roleId="inputPassword" class="form-control" placeholder="Пароль"
+                           id="password"
+                           name="password" required/>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+            </form>
+            <hr />
+            <div class="form-group ">
+                <a type="submit" class="btn btn-info btn-lg btn-block login-button" th:href="@{/signup}">Зарегистрироваться!</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>

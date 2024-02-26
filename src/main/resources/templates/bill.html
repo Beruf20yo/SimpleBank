@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:insert="~{common/fragments :: header}"></head>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <title>Счета на оплату</title>
+</head>
+
+<body class="container-xl pb-4">
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<!--  Сообщение об ошибке  -->
+<div th:if="${errorMessage}" class="alert alert-danger">
+  Не удалось выполнить действие
+</div>
+<!--  Конец сообщения об ошибке  -->
+<div th:if="${successMessage}" class="alert alert-success">
+  Выполнено
+</div>
+
+<div class="card">
+
+  <div class="card-body">
+
+    <!-- Начало формы -->
+    <form th:action="@{/user/bill}" method="post" autocomplete="off" th:object="${bill}">
+
+      <h4 th:text="${bill.id != null} ? 'Изменение записи # ' + ${bill.id} : 'Добавление записи'"></h4>
+      <input hidden th:field="*{id}" th:value="${bill.id}" />
+
+      <!-- Дата создания -->
+      <div class="form-group">
+        <label for="inputDate">Дата</label>
+        <input type="date" class="form-control" id="inputDate" th:field="*{dateCreated}" placeholder="Дата создания" required />
+      </div>
+
+      <!-- Счёт зачисления -->
+      <div class="form-group">
+        <label for="inputRecieverAccount">Счёт оплаты</label>
+        <select th:field="*{account.id}" id="inputRecieverAccount" class="selectpicker form-control" data-live-search="true">
+          <option th:each="item : ${accounts}" th:value="${item.id}" th:text="${item.name}"></option>
+        </select>
+      </div>
+
+      <!-- Получатель -->
+      <div class="form-group">
+        <label for="inputRecipient">Получатель</label>
+        <select th:field="*{recipient.id}" id="inputRecipient" class="selectpicker form-control" data-live-search="true">
+          <option th:each="item : ${users}" th:value="${item.id}" th:text="${item.username}"></option>
+        </select>
+      </div>
+
+      <!-- Услуга -->
+      <div class="form-group">
+        <label for="inputService">Услуга</label>
+        <input class="form-control" id="inputService" th:field="*{service}" placeholder="Услуга" required />
+      </div>
+
+      <!-- Стоимость -->
+      <div class="form-group">
+        <label for="inputPrice">Стоимость</label>
+        <input class="form-control" id="inputPrice" th:field="*{price}" placeholder="Стоимость" required />
+      </div>
+
+      <!-- Статус -->
+      <div class="form-group">
+        <label for="inputStatus">Статус</label>
+        <select id="inputStatus" class="form-control" th:field="*{status}" required>
+          <option value="Оплачено">Оплачено</option>
+          <option value="Не оплачено">Не оплачено</option>
+        </select>
+      </div>
+
+      <!-- Детали -->
+      <div class="form-group">
+        <label for="inputDescription">Детали</label>
+        <textarea class="form-control" id="inputDescription" rows="5" th:field="*{details}" placeholder="Детали"></textarea>
+      </div>
+
+      <!-- Отправка формы -->
+      <button class="btn btn-primary btn-block col-lg-2" type="submit">Создать</button>
+
+    </form>
+    <!-- Конец формы -->
+
+  </div>
+</div>
+
+<!-- Начало таблицы -->
+<div class="table-wrapper">
+
+  <div class="d-flex justify-content-center">
+    <h4>Счета</h4>
+  </div>
+
+  <table id="datatablesSimple" class="table table-striped table-hover table-bordered">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Дата создания</th>
+      <th>Счёт зачисления</th>
+      <th>Создатель</th>
+      <th>Получатель</th>
+      <th>Услуга</th>
+      <th>Стоимость</th>
+      <th>Детали</th>
+      <th>Статус</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${bills}">
+      <td th:text="${item.id}">Id</td>
+      <td th:text="${item.dateCreated}">Дата перевода</td>
+      <td th:text="${item.account.name}">Счёт зачисления</td>
+      <td th:text="${item.creator.username}"></td>
+      <td th:text="${item.recipient.username}"></td>
+      <td th:text="${item.service}">Услуга</td>
+      <td th:text="${item.price}">Стоимость</td>
+      <td th:text="${item.details}">Детали</td>
+      <td th:text="${item.status}">Статус</td>
+      <td>
+        <form id="editForm" th:action="'/user/bill/' + ${item.id}" th:method="GET">
+          <button class="btn bg-transparent" type="submit"><i class="fa fa-money" style="font-size:24px"></i></button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+
+
+<div th:insert="~{common/fragments :: body-bottom-scripts}"></div>
+
+</html>

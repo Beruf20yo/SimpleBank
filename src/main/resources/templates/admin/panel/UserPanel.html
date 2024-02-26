@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:insert="~{common/fragments :: header}"></head>
+<head><title>Пользователи</title></head>
+
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<!-- Начало таблицы -->
+<div class="table-wrapper">
+
+    <div class="d-flex justify-content-center">
+        <h4>Пользователи</h4>
+    </div>
+
+    <table id="datatablesSimple" class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>ФИО</th>
+            <th>Почта</th>
+            <th>Телефон</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Роль</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${users}">
+            <td th:text="${item.id}">Id</td>
+            <td th:text="${item.firstname} + ' ' + ${item.lastname} + ' ' + ${item.middleName}">Радионов Иван Федорович</td>
+            <td th:text="${item.email}">Почта</td>
+            <td th:text="${item.phone}">Телефон</td>
+            <td th:text="${item.username}">Логин</td>
+            <td th:text="${item.password}">Пароль</td>
+            <td th:text="${#strings.equals(item.role, 'ROLE_USER')} ? 'Пользователь' : 'Администратор'">Роль</td>
+            <td>
+                <form th:id="'editForm' + ${item.id}" th:action="'/admin/user/' + ${item.id}" th:method="GET"></form>
+                <form th:id="'deleteForm' + ${item.id}" th:action="'/admin/user/' + ${item.id}" th:method="DELETE"></form>
+                <a href="#" th:onclick=" 'document.getElementById(\'' + 'editForm' + ${item.id} + '\').submit()'" class="edit" title="Изменить" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                <a href="#" th:onclick=" 'document.getElementById(\'' + 'deleteForm' + ${item.id} + '\').submit()'" class="delete" title="Удалить" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Конец таблицы -->
+
+<div th:if="${errorMessage}" class="alert alert-danger">
+    Не удалось выполнить действие
+</div>
+
+<div th:if="${successMessage}" class="alert alert-success">
+    Действие выполнено
+</div>
+
+<!-- Сохранение записи -->
+<div class="card">
+    <div class="card-body">
+
+        <!-- Начало формы -->
+        <form th:action="@{/admin/user}" method="post" autocomplete="off" th:object="${user}">
+
+            <h4 th:text="${user.id != null} ? 'Изменение записи # ' + ${user.id} : 'Добавление записи'"></h4>
+            <input hidden th:field="*{id}" th:value="${user.id}" />
+
+            <!-- Фамилия -->
+            <div class="form-group">
+                <label for="inputLastname">Фамилия</label>
+                <input type="text" class="form-control" id="inputLastname" th:field="*{lastname}" placeholder="Фамилия" required />
+            </div>
+
+            <!-- Имя -->
+            <div class="form-group">
+                <label for="inputFirstname">Имя</label>
+                <input type="text" class="form-control" id="inputFirstname" th:field="*{firstname}" placeholder="Имя" required />
+            </div>
+
+            <!-- Отчество -->
+            <div class="form-group">
+                <label for="inputLastname">Отчество</label>
+                <input type="text" class="form-control" id="inputMiddleName" th:field="*{middleName}" placeholder="Отчество" required />
+            </div>
+
+            <!-- Почта -->
+            <div class="form-group">
+                <label for="inputEmail">Почта</label>
+                <input type="email" class="form-control" id="inputEmail" th:field="*{email}" placeholder="Почта" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+            </div>
+
+            <!-- Телефон -->
+            <div class="form-group">
+                <label for="inputPhone">Телефон</label>
+                <input type="tel" class="form-control" id="inputPhone" th:field="*{phone}" placeholder="Всё после +7" pattern="\d{3}\d{3}\d{4}" required />
+            </div>
+
+            <!-- Логин -->
+            <div class="form-group">
+                <label for="inputLogin">Логин</label>
+                <input type="text" class="form-control" id="inputLogin"  th:field="*{username}" placeholder="Логин" required />
+            </div>
+
+            <!-- Пароль -->
+            <div class="form-group">
+                <label for="inputPassword">Пароль</label>
+                <input type="text" class="form-control" id="inputPassword"  th:field="*{password}" placeholder="Пароль" required />
+            </div>
+
+            <!-- Роль -->
+            <div class="form-group">
+                <label for="inputRole">Роль</label>
+                <select id="inputRole" class="form-control" th:field="*{role}" required>
+                    <option value="ROLE_USER">Пользователь</option>
+                    <option value="ROLE_ADMIN">Администратор</option>
+                </select>
+            </div>
+
+            <!-- Отправка формы -->
+            <button class="btn btn-primary btn-block col-lg-2" type="submit">Сохранить</button>
+
+        </form>
+        <!-- Конец формы -->
+
+    </div>
+</div>
+<!-- Конец сохранения записи -->
+
+</body>
+
+<div th:insert="~{common/fragments :: body-bottom-scripts}"></div>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:insert="~{common/fragments :: header}"></head>
+<head><title>Профиль</title></head>
+
+<body class="container-xl pb-4">
+
+<!--  Навигация  -->
+<nav th:insert="~{common/fragments :: navbar}"></nav>
+
+<!--  Сообщение об ошибке  -->
+<div th:if="${errorMessage}" class="alert alert-danger">
+  Не удалось выполнить действие
+</div>
+<!--  Конец сообщения об ошибке  -->
+
+<div th:if="${successMessage}" class="alert alert-success">
+  Сохранено
+</div>
+
+<!-- Изменение записи -->
+<div class="card">
+  <div class="card-body">
+
+    <!-- Начало формы -->
+    <form id="bookingForm" th:action="@{/user/profile}" method="post" class="needs-validation" autocomplete="off" th:object="${user}">
+
+      <h4>Профиль</h4>
+      <!-- Фамилия -->
+      <div class="form-group">
+        <label for="inputLastname">Фамилия</label>
+        <input type="text" class="form-control" id="inputLastname" th:field="*{lastname}" placeholder="Фамилия" required />
+      </div>
+
+      <!-- Имя -->
+      <div class="form-group">
+        <label for="inputFirstname">Имя</label>
+        <input type="text" class="form-control" id="inputFirstname" th:field="*{firstname}" placeholder="Имя" required />
+      </div>
+
+      <!-- Отчество -->
+      <div class="form-group">
+        <label for="inputLastname">Отчество</label>
+        <input type="text" class="form-control" id="inputMiddleName" th:field="*{middleName}" placeholder="Отчество" required />
+      </div>
+
+      <!-- Почта -->
+      <div class="form-group">
+        <label for="inputEmail">Почта</label>
+        <input type="email" class="form-control" id="inputEmail" th:field="*{email}" placeholder="Почта" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+      </div>
+
+      <!-- Телефон -->
+      <div class="form-group">
+        <label for="inputPhone">Телефон</label>
+        <input type="tel" class="form-control" id="inputPhone" th:field="*{phone}" placeholder="Всё после +7" pattern="\d{3}\d{3}\d{4}" required />
+      </div>
+
+      <!-- Логин -->
+      <div class="form-group">
+        <label for="inputLogin">Логин</label>
+        <input type="text" class="form-control" id="inputLogin"  th:field="*{username}" placeholder="Логин" readonly />
+      </div>
+
+      <!-- Пароль -->
+      <div class="form-group">
+        <label for="inputPassword">Пароль</label>
+        <input type="text" class="form-control" id="inputPassword"  th:field="*{password}" placeholder="Пароль" required />
+      </div>
+
+    </form>
+    <!-- Конец формы -->
+
+    <!-- Отправка формы -->
+    <div class="d-flex">
+      <button class="btn btn-primary mr-2 col-lg-2" form="bookingForm" type="submit">Сохранить</button>
+      <form action="\">
+        <button class="btn btn-secondary mr-2 " type="submit">Назад</button>
+      </form>
+    </div>
+
+    <!-- Конец отправки формы -->
+  </div>
+</div>
+<!-- Конец изменения записи -->
+
+</body>
+
+
+<div th:insert="~{common/fragments :: body-bottom-scripts}"></div>
+
+</html>
